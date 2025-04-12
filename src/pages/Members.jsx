@@ -1,8 +1,10 @@
 
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Search, UserPlus, Mail, AlertCircle } from "lucide-react";
+import { Search, UserPlus } from "lucide-react";
 import { Navigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import MemberModal from "@/components/modals/MemberModal";
 
 // Mock data for members
@@ -128,13 +130,13 @@ const Members = () => {
           />
         </div>
         
-        <button 
+        <Button 
           onClick={() => setIsModalOpen(true)}
           className="inline-flex items-center gap-2 rounded-md bg-wfc-purple px-4 py-2 text-white transition-colors hover:bg-wfc-purple-dark"
         >
           <UserPlus className="h-4 w-4" />
           <span>Add Member</span>
-        </button>
+        </Button>
       </div>
       
       <div className="space-y-4">
@@ -142,55 +144,56 @@ const Members = () => {
           filteredMembers.map(member => (
             <div 
               key={member.id}
-              className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+              className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm flex items-center justify-between"
             >
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className={`grid h-10 w-10 place-items-center rounded-md bg-wfc-purple text-white ${member.status === "inactive" ? "opacity-60" : ""}`}>
-                    {member.initials}
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-medium text-gray-900">{member.name}</h3>
-                    <div className="flex items-center gap-1 text-sm text-gray-500">
-                      <Mail className="h-3 w-3" />
-                      <span>{member.email}</span>
-                    </div>
-                  </div>
+              <div className="flex items-center gap-4">
+                <div className="grid h-10 w-10 place-items-center rounded-md bg-gray-100 text-gray-700 font-medium">
+                  {member.initials}
                 </div>
                 
-                <div className="ml-auto flex flex-wrap items-center gap-3">
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs ${
-                    member.status === "active" 
-                      ? "bg-green-100 text-green-800" 
-                      : "bg-gray-100 text-gray-800"
-                  }`}>
-                    {member.status === "active" ? "Active" : "Inactive"}
-                  </span>
-
-                  <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-800">
-                    {member.role}
-                  </span>
-                  
-                  {member.inactiveDays && (
-                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs text-amber-800">
-                      {member.inactiveDays} days inactive
-                    </span>
-                  )}
-                  
-                  <button
-                    onClick={() => handleRemoveMember(member.id)}
-                    className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-600 hover:bg-red-100"
-                  >
-                    Remove
-                  </button>
+                <div>
+                  <h3 className="font-medium text-gray-900">{member.name}</h3>
+                  <div className="flex items-center gap-1 text-sm text-gray-500">
+                    <span>{member.email}</span>
+                  </div>
                 </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                {member.status === "active" ? (
+                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 flex items-center gap-1">
+                    <span className="size-1.5 rounded-full bg-green-500"></span> Active
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+                    Inactive
+                  </Badge>
+                )}
+                
+                <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-100">
+                  {member.role}
+                </Badge>
+                
+                {member.inactiveDays && (
+                  <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 flex items-center gap-1">
+                    <span className="size-1.5 rounded-full bg-amber-500"></span> {member.inactiveDays} days inactive
+                  </Badge>
+                )}
+                
+                <button
+                  onClick={() => handleRemoveMember(member.id)}
+                  className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-600 hover:bg-red-100"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           ))
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <AlertCircle className="mb-4 h-12 w-12 text-gray-300" />
+            <div className="mb-4 h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center">
+              <Search className="h-6 w-6 text-gray-400" />
+            </div>
             <h3 className="text-lg font-medium text-gray-900">No members found</h3>
             <p className="text-gray-500">Try adjusting your search or add new members</p>
           </div>

@@ -57,7 +57,7 @@ const Sidebar = () => {
               />
             ) : (
               <div className="grid h-10 w-10 place-content-center rounded-full bg-white/20 text-white">
-                {user?.name.charAt(0)}
+                {user?.name?.charAt(0)}
               </div>
             )}
             <div>

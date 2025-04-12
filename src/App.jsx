@@ -17,6 +17,7 @@ import Events from "@/pages/Events";
 import Resources from "@/pages/Resources";
 import Members from "@/pages/Members";
 import NotFound from "@/pages/NotFound";
+import Index from "@/pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -96,8 +97,8 @@ const App = () => (
               }
             />
 
-            {/* Redirect root to dashboard or login */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            {/* Redirect root to login or dashboard based on auth status */}
+            <Route path="/" element={<Index />} />
 
             {/* 404 route */}
             <Route path="*" element={<NotFound />} />
